@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using test.Data;
+using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,7 +13,15 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Project 001",
+        Version = "1.0",
+        Description = "Test to Project 001",
+    });
+});
 
 var app = builder.Build();
 
@@ -22,7 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options => 
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Project 001");
         options.RoutePrefix = string.Empty;
     });
 }
